@@ -1,15 +1,19 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import "./App.css";
 import Form from "./component/Form";
 
 import Post from "./component/Post";
+import { formActions } from "./store/form-slice";
 
 function App() {
-  const [form, setForm] = useState(false);
+  const dispatch = useDispatch();
+  const showForm = useSelector((state) => state.form.form);
+
   const postHandler = () => {
-    setForm((prev) => !prev);
+    dispatch(formActions.toggle());
   };
+
   return (
     <div>
       <button
@@ -18,7 +22,7 @@ function App() {
       >
         Post Data
       </button>
-      {form && <Form />}
+      {showForm && <Form />}
       <Post />
     </div>
   );

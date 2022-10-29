@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
+import { useSelector } from "react-redux";
 
 const Post = () => {
   const [items, setItems] = useState([]);
   const [totalPage, setTotalPage] = useState();
-
+  const formData = useSelector((state) => state.form.formData);
+  console.log(formData);
   const limit = 12;
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +21,7 @@ const Post = () => {
       setItems(data);
     };
     fetchData();
-  }, []);
+  }, [formData]);
 
   const fetchComments = async (currentPage) => {
     const res = await fetch(
@@ -34,7 +36,7 @@ const Post = () => {
     const commentdata = await fetchComments(currentPage);
     setItems(commentdata);
   };
-
+  console.log(items);
   return (
     <div className="container m-6 p-6">
       <div className="flex gap-2 flex-wrap justify-center items-center -m-4">

@@ -1,26 +1,29 @@
 import React, { useRef } from "react";
+import { useDispatch } from "react-redux";
+import { formActions } from "../store/form-slice";
 
 const Form = () => {
+  const dispatch = useDispatch();
+
+  // console.log(inputData);
   const titleRef = useRef();
   const messageRef = useRef();
+  // const addPostHandler = (event) => {
+  //   event.preventDefault();
+  //   const enteredtitle = titleRef.current.value;
+  //   const enteredmessage = messageRef.current.value;
+
+  //    setInputData(prevState=>{
+  //    return ({...prevState,title:enteredtitle,post:enteredmessage})}
+  // }
+
   const addPostHandler = (event) => {
     event.preventDefault();
     const enteredtitle = titleRef.current.value;
     const enteredmessage = messageRef.current.value;
-
-    fetch("https://jsonplaceholder.typicode.com/posts", {
-      method: "POST",
-      body: JSON.stringify({
-        title: enteredtitle,
-        body: enteredmessage,
-        userId: 1,
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    })
-      .then((response) => response.json())
-      .then((json) => console.log(json));
+    dispatch(
+      formActions.formData({ title: enteredtitle, body: enteredmessage })
+    );
 
     titleRef.current.value = "";
     messageRef.current.value = "";
